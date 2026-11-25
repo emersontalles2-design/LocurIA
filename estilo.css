@@ -1,0 +1,747 @@
+/* =========================================================
+   AVENTURA VOLCÁNICA - Estilos (CSS puro)
+   Selectores avançados: :target, :checked, ~, :has(), :not()
+   ========================================================= */
+
+:root {
+  --lava: #ff4500;
+  --lava-clara: #ff6b00;
+  --ouro: #ffd700;
+  --gema: #00d4ff;
+  --plataforma: #2c2c2c;
+  --plataforma-topo: #4a4a4a;
+  --sombra: rgba(0,0,0,0.55);
+  --transicao: 0.28s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0a0303;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: #fff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* ---------- Telas / Navegação com :target ---------- */
+.tela {
+  display: none;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  text-align: center;
+}
+
+#inicio:target,
+#instrucoes:target,
+#nivel1:target,
+#nivel2:target,
+#nivel3:target,
+#vitoria:target {
+  display: flex;
+}
+
+/* Mostrar início quando não há hash */
+body:not(:has(:target)) #inicio {
+  display: flex;
+}
+
+/* ---------- Tipografia e botões ---------- */
+.titulo {
+  font-size: clamp(2rem, 7vw, 3.6rem);
+  font-weight: 900;
+  letter-spacing: 1px;
+  background: linear-gradient(180deg, #ffe566 0%, #ff9a00 45%, #ff4500 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 12px rgba(255, 100, 0, 0.45));
+  margin-bottom: 8px;
+}
+
+.subtitulo {
+  color: #ffb088;
+  font-size: 1.15rem;
+  margin-bottom: 32px;
+  opacity: 0.95;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  margin: 8px;
+  background: linear-gradient(180deg, #ff7a1a, #d43b00);
+  border: 3px solid var(--ouro);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 6px 0 #8b2500, 0 10px 24px var(--sombra);
+  transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+  user-select: none;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 0 #8b2500, 0 14px 28px var(--sombra);
+  filter: brightness(1.08);
+}
+
+.btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #8b2500;
+}
+
+.btn-sec {
+  background: linear-gradient(180deg, #3d3d3d, #1f1f1f);
+  border-color: #777;
+  box-shadow: 0 6px 0 #111, 0 10px 24px var(--sombra);
+}
+
+.btn-sec:hover {
+  box-shadow: 0 9px 0 #111, 0 14px 28px var(--sombra);
+}
+
+/* Botão que só aparece quando todos os itens foram coletados */
+.btn-proximo {
+  display: none;
+  animation: aparecer 0.5s ease;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: scale(0.85) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ---------- Caixa de instruções ---------- */
+.caixa {
+  background: rgba(25, 8, 8, 0.9);
+  border: 2px solid #ff6b00;
+  border-radius: 18px;
+  padding: 28px 32px;
+  max-width: 540px;
+  text-align: left;
+  margin-bottom: 28px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+.caixa h2 {
+  color: var(--ouro);
+  text-align: center;
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+}
+
+.caixa ul { padding-left: 22px; }
+.caixa li { margin-bottom: 10px; }
+.caixa strong { color: #ffcc66; }
+
+/* ---------- Área de jogo ---------- */
+.jogo-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 1080px;
+  height: 600px;
+  margin: 0 auto;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 4px solid #5c1e00;
+  box-shadow:
+    0 0 0 1px #2a0a00,
+    0 0 50px rgba(255, 80, 0, 0.3),
+    inset 0 0 80px rgba(0,0,0,0.45);
+}
+
+.cenario {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    #120505 0%,
+    #2a0808 25%,
+    #5a1212 55%,
+    #a02810 80%,
+    #ff4500 100%);
+}
+
+/* Montanhas de fundo */
+.montanha {
+  position: absolute;
+  bottom: 72px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  opacity: 0.5;
+  filter: brightness(0.7);
+}
+.m1 { left: -50px;  border-width: 0 190px 340px 190px; border-color: transparent transparent #2a0a0a transparent; }
+.m2 { left: 180px;  border-width: 0 150px 290px 150px; border-color: transparent transparent #3a1010 transparent; }
+.m3 { left: 460px;  border-width: 0 210px 370px 210px; border-color: transparent transparent #220808 transparent; }
+.m4 { right: -70px; border-width: 0 230px 390px 230px; border-color: transparent transparent #2e0c0c transparent; }
+
+/* Lava do chão */
+.lava {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 68px;
+  background: linear-gradient(180deg, #ff7a00 0%, #ff3c00 40%, #c41e00 100%);
+  z-index: 3;
+  overflow: hidden;
+}
+
+.lava::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: -10%;
+  right: -10%;
+  height: 28px;
+  background:
+    radial-gradient(ellipse 80px 20px at 15% 50%, #ffcc00 0%, transparent 70%),
+    radial-gradient(ellipse 60px 18px at 40% 60%, #ffaa00 0%, transparent 70%),
+    radial-gradient(ellipse 90px 22px at 70% 40%, #ffdd00 0%, transparent 70%),
+    radial-gradient(ellipse 50px 16px at 90% 55%, #ff9900 0%, transparent 70%);
+  animation: lava-ondular 2.8s ease-in-out infinite;
+}
+
+@keyframes lava-ondular {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  50%      { transform: translateY(-6px) scaleY(1.15); }
+}
+
+/* Cascata de lava */
+.cascata {
+  position: absolute;
+  width: 48px;
+  background: linear-gradient(180deg, #ffcc00, #ff5500 40%, #ff1744);
+  border-radius: 0 0 24px 24px;
+  box-shadow: 0 0 28px #ff4500, inset 0 0 20px rgba(255,255,255,0.25);
+  z-index: 4;
+  overflow: hidden;
+}
+
+.cascata::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg,
+    transparent 0%,
+    rgba(255,255,255,0.35) 40%,
+    transparent 80%);
+  animation: fluxo 1.4s linear infinite;
+}
+
+@keyframes fluxo {
+  from { transform: translateY(-100%); }
+  to   { transform: translateY(100%); }
+}
+
+/* Plataformas */
+.plat {
+  position: absolute;
+  height: 22px;
+  background: linear-gradient(180deg, #555 0%, #333 35%, #1a1a1a 100%);
+  border-radius: 8px 8px 3px 3px;
+  border-bottom: 4px solid #0a0a0a;
+  box-shadow: 0 5px 0 #000, inset 0 2px 0 rgba(255,255,255,0.1);
+  z-index: 6;
+}
+
+.plat::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 4px;
+  right: 4px;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, rgba(255,200,120,0.18), transparent);
+  border-radius: 6px 6px 0 0;
+}
+
+.plat.rachada::before {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 30%;
+  width: 40%;
+  height: 2px;
+  background: #111;
+  transform: rotate(-3deg);
+  opacity: 0.6;
+}
+
+/* Escada */
+.escada {
+  position: absolute;
+  width: 26px;
+  background: repeating-linear-gradient(
+    180deg,
+    #6b4a22 0 7px,
+    transparent 7px 15px
+  );
+  border-left: 3px solid #3d2a10;
+  border-right: 3px solid #3d2a10;
+  z-index: 5;
+}
+
+/* Corrente */
+.corrente {
+  position: absolute;
+  width: 5px;
+  background: repeating-linear-gradient(
+    180deg,
+    #999 0 9px,
+    #555 9px 14px
+  );
+  border-radius: 2px;
+  z-index: 5;
+  box-shadow: 1px 0 0 #333;
+}
+
+/* Tocha */
+.tocha {
+  position: absolute;
+  width: 18px;
+  z-index: 7;
+}
+.tocha .fogo {
+  width: 16px;
+  height: 20px;
+  margin: 0 auto;
+  background: radial-gradient(ellipse at 50% 80%, #ffee66, #ff6600 60%, transparent 80%);
+  border-radius: 50% 50% 20% 20%;
+  animation: fogo 0.35s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 8px #ff6600);
+}
+.tocha .haste {
+  width: 8px;
+  height: 14px;
+  margin: -3px auto 0;
+  background: #4a3a22;
+  border-radius: 2px;
+}
+
+@keyframes fogo {
+  from { transform: scaleY(1) scaleX(1); }
+  to   { transform: scaleY(1.25) scaleX(0.82); }
+}
+
+/* Baú */
+.bau {
+  position: absolute;
+  width: 38px;
+  height: 30px;
+  background: linear-gradient(180deg, #d4a017, #8b6914);
+  border: 2px solid #5a4010;
+  border-radius: 5px 5px 3px 3px;
+  box-shadow: 0 4px 0 #3a2800;
+  z-index: 7;
+}
+.bau::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 9px;
+  background: linear-gradient(180deg, #ffe566, #c9a227);
+  border-radius: 2px;
+  border: 1px solid #5a4010;
+}
+
+/* ========== JOGADOR ========== */
+.heroi {
+  position: absolute;
+  width: 38px;
+  height: 52px;
+  z-index: 25;
+  transition: left var(--transicao), bottom var(--transicao);
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+}
+
+.heroi .cabeca {
+  width: 30px;
+  height: 30px;
+  margin: 0 auto;
+  background: linear-gradient(160deg, #ffd98a, #e89a3c);
+  border-radius: 50% 50% 42% 42%;
+  position: relative;
+  box-shadow: 0 2px 0 #b36b1a;
+}
+
+.heroi .cabeca::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  left: 6px;
+  width: 6px;
+  height: 6px;
+  background: #222;
+  border-radius: 50%;
+  box-shadow: 13px 0 0 #222;
+}
+
+.heroi .corpo {
+  width: 24px;
+  height: 18px;
+  margin: -3px auto 0;
+  background: #2a6ae0;
+  border-radius: 0 0 8px 8px;
+  position: relative;
+}
+
+.heroi .corpo::before,
+.heroi .corpo::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  width: 11px;
+  height: 9px;
+  background: #1a1a1a;
+  border-radius: 2px;
+}
+.heroi .corpo::before { left: 0; }
+.heroi .corpo::after  { right: 0; }
+
+/* Posições do herói - Nível 1 */
+#n1p1:checked ~ .jogo-wrap .heroi { left: 45px;  bottom: 92px; }
+#n1p2:checked ~ .jogo-wrap .heroi { left: 155px; bottom: 168px; }
+#n1p3:checked ~ .jogo-wrap .heroi { left: 285px; bottom: 242px; }
+#n1p4:checked ~ .jogo-wrap .heroi { left: 420px; bottom: 188px; }
+#n1p5:checked ~ .jogo-wrap .heroi { left: 560px; bottom: 268px; }
+#n1p6:checked ~ .jogo-wrap .heroi { left: 710px; bottom: 208px; }
+#n1p7:checked ~ .jogo-wrap .heroi { left: 860px; bottom: 148px; }
+#n1p8:checked ~ .jogo-wrap .heroi { left: 970px; bottom: 92px; }
+
+/* Posições - Nível 2 */
+#n2p1:checked ~ .jogo-wrap .heroi { left: 40px;  bottom: 92px; }
+#n2p2:checked ~ .jogo-wrap .heroi { left: 160px; bottom: 198px; }
+#n2p3:checked ~ .jogo-wrap .heroi { left: 310px; bottom: 292px; }
+#n2p4:checked ~ .jogo-wrap .heroi { left: 460px; bottom: 208px; }
+#n2p5:checked ~ .jogo-wrap .heroi { left: 610px; bottom: 318px; }
+#n2p6:checked ~ .jogo-wrap .heroi { left: 760px; bottom: 238px; }
+#n2p7:checked ~ .jogo-wrap .heroi { left: 910px; bottom: 158px; }
+
+/* Posições - Nível 3 */
+#n3p1:checked ~ .jogo-wrap .heroi { left: 35px;  bottom: 92px; }
+#n3p2:checked ~ .jogo-wrap .heroi { left: 145px; bottom: 218px; }
+#n3p3:checked ~ .jogo-wrap .heroi { left: 270px; bottom: 158px; }
+#n3p4:checked ~ .jogo-wrap .heroi { left: 410px; bottom: 298px; }
+#n3p5:checked ~ .jogo-wrap .heroi { left: 550px; bottom: 208px; }
+#n3p6:checked ~ .jogo-wrap .heroi { left: 690px; bottom: 348px; }
+#n3p7:checked ~ .jogo-wrap .heroi { left: 830px; bottom: 248px; }
+#n3p8:checked ~ .jogo-wrap .heroi { left: 960px; bottom: 112px; }
+
+/* ========== COLECIONÁVEIS ========== */
+.item-label {
+  position: absolute;
+  z-index: 18;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.item-label:hover {
+  transform: scale(1.18);
+}
+
+.moeda {
+  width: 24px;
+  height: 24px;
+  background: radial-gradient(circle at 32% 32%, #ffe566, #ffb700 55%, #c97b00);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(255, 200, 0, 0.75), inset 0 -3px 0 rgba(0,0,0,0.2);
+  animation: flutuar 1.9s ease-in-out infinite;
+  position: relative;
+}
+.moeda::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid rgba(255,255,255,0.45);
+  border-radius: 50%;
+}
+
+.gema {
+  width: 22px;
+  height: 28px;
+  background: linear-gradient(145deg, #80f0ff, #0099cc 70%);
+  clip-path: polygon(50% 0%, 100% 32%, 82% 100%, 18% 100%, 0% 32%);
+  box-shadow: 0 0 14px rgba(0, 210, 255, 0.85);
+  animation: flutuar 2.3s ease-in-out infinite 0.25s;
+}
+
+.coracao {
+  width: 26px;
+  height: 24px;
+  position: relative;
+  transform: rotate(-45deg);
+  background: #ff1744;
+  box-shadow: 0 0 12px rgba(255, 20, 60, 0.7);
+  animation: bater 1.15s ease-in-out infinite;
+}
+.coracao::before,
+.coracao::after {
+  content: '';
+  position: absolute;
+  width: 26px;
+  height: 24px;
+  background: #ff1744;
+  border-radius: 50%;
+}
+.coracao::before { top: -13px; left: 0; }
+.coracao::after  { top: 0; left: 13px; }
+
+@keyframes flutuar {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-11px); }
+}
+@keyframes bater {
+  0%, 100% { transform: rotate(-45deg) scale(1); }
+  50%      { transform: rotate(-45deg) scale(1.18); }
+}
+
+/* Itens coletados desaparecem com animação */
+#n1c1:checked ~ .jogo-wrap [for="n1c1"] .item,
+#n1c2:checked ~ .jogo-wrap [for="n1c2"] .item,
+#n1c3:checked ~ .jogo-wrap [for="n1c3"] .item,
+#n1c4:checked ~ .jogo-wrap [for="n1c4"] .item,
+#n1c5:checked ~ .jogo-wrap [for="n1c5"] .item,
+#n1c6:checked ~ .jogo-wrap [for="n1c6"] .item,
+#n1g1:checked ~ .jogo-wrap [for="n1g1"] .item,
+#n1g2:checked ~ .jogo-wrap [for="n1g2"] .item,
+#n2c1:checked ~ .jogo-wrap [for="n2c1"] .item,
+#n2c2:checked ~ .jogo-wrap [for="n2c2"] .item,
+#n2c3:checked ~ .jogo-wrap [for="n2c3"] .item,
+#n2c4:checked ~ .jogo-wrap [for="n2c4"] .item,
+#n2c5:checked ~ .jogo-wrap [for="n2c5"] .item,
+#n2c6:checked ~ .jogo-wrap [for="n2c6"] .item,
+#n2c7:checked ~ .jogo-wrap [for="n2c7"] .item,
+#n2g1:checked ~ .jogo-wrap [for="n2g1"] .item,
+#n2g2:checked ~ .jogo-wrap [for="n2g2"] .item,
+#n2g3:checked ~ .jogo-wrap [for="n2g3"] .item,
+#n3c1:checked ~ .jogo-wrap [for="n3c1"] .item,
+#n3c2:checked ~ .jogo-wrap [for="n3c2"] .item,
+#n3c3:checked ~ .jogo-wrap [for="n3c3"] .item,
+#n3c4:checked ~ .jogo-wrap [for="n3c4"] .item,
+#n3c5:checked ~ .jogo-wrap [for="n3c5"] .item,
+#n3c6:checked ~ .jogo-wrap [for="n3c6"] .item,
+#n3c7:checked ~ .jogo-wrap [for="n3c7"] .item,
+#n3c8:checked ~ .jogo-wrap [for="n3c8"] .item,
+#n3g1:checked ~ .jogo-wrap [for="n3g1"] .item,
+#n3g2:checked ~ .jogo-wrap [for="n3g2"] .item,
+#n3g3:checked ~ .jogo-wrap [for="n3g3"] .item,
+#n3g4:checked ~ .jogo-wrap [for="n3g4"] .item {
+  opacity: 0;
+  transform: scale(0) translateY(-50px) rotate(20deg);
+  pointer-events: none;
+  transition: all 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+}
+
+/* ========== HUD ========== */
+.hud {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.hud-pill {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  padding: 7px 16px;
+  border-radius: 24px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: 1px solid rgba(255,200,0,0.25);
+}
+
+.nivel-badge {
+  background: linear-gradient(90deg, #ff6b00, #c93000);
+  padding: 7px 20px;
+  border-radius: 24px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  font-size: 0.9rem;
+  box-shadow: 0 0 16px rgba(255,100,0,0.4);
+}
+
+/* ========== Controles de movimento ========== */
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 18px;
+  max-width: 1080px;
+}
+
+.controles label {
+  padding: 11px 15px;
+  background: linear-gradient(180deg, #3a3a3a, #1c1c1c);
+  border: 2px solid #555;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.15s;
+  user-select: none;
+}
+
+.controles label:hover {
+  border-color: var(--ouro);
+  background: linear-gradient(180deg, #4a4a4a, #2a2a2a);
+  transform: translateY(-2px);
+}
+
+/* Destaque do botão ativo via ~ + atributo for */
+#n1p1:checked ~ .controles label[for="n1p1"],
+#n1p2:checked ~ .controles label[for="n1p2"],
+#n1p3:checked ~ .controles label[for="n1p3"],
+#n1p4:checked ~ .controles label[for="n1p4"],
+#n1p5:checked ~ .controles label[for="n1p5"],
+#n1p6:checked ~ .controles label[for="n1p6"],
+#n1p7:checked ~ .controles label[for="n1p7"],
+#n1p8:checked ~ .controles label[for="n1p8"],
+#n2p1:checked ~ .controles label[for="n2p1"],
+#n2p2:checked ~ .controles label[for="n2p2"],
+#n2p3:checked ~ .controles label[for="n2p3"],
+#n2p4:checked ~ .controles label[for="n2p4"],
+#n2p5:checked ~ .controles label[for="n2p5"],
+#n2p6:checked ~ .controles label[for="n2p6"],
+#n2p7:checked ~ .controles label[for="n2p7"],
+#n3p1:checked ~ .controles label[for="n3p1"],
+#n3p2:checked ~ .controles label[for="n3p2"],
+#n3p3:checked ~ .controles label[for="n3p3"],
+#n3p4:checked ~ .controles label[for="n3p4"],
+#n3p5:checked ~ .controles label[for="n3p5"],
+#n3p6:checked ~ .controles label[for="n3p6"],
+#n3p7:checked ~ .controles label[for="n3p7"],
+#n3p8:checked ~ .controles label[for="n3p8"] {
+  border-color: var(--ouro);
+  background: linear-gradient(180deg, #ff6b00, #c93000);
+  box-shadow: 0 0 14px rgba(255, 140, 0, 0.55);
+  transform: translateY(-2px);
+}
+
+/* ========== Lógica de conclusão de nível ========== */
+/* Nível 1 – 6 moedas + 2 gemas */
+#n1c1:checked ~ #n1c2:checked ~ #n1c3:checked ~ #n1c4:checked
+~ #n1c5:checked ~ #n1c6:checked ~ #n1g1:checked ~ #n1g2:checked
+~ .zona-avance .btn-proximo {
+  display: inline-flex;
+}
+
+#n1c1:checked ~ #n1c2:checked ~ #n1c3:checked ~ #n1c4:checked
+~ #n1c5:checked ~ #n1c6:checked ~ #n1g1:checked ~ #n1g2:checked
+~ .zona-avance .msg-nivel::after {
+  content: "🔥 ¡Nivel 1 completado! Avanza al siguiente desafío.";
+  display: block;
+  color: var(--ouro);
+  font-weight: 700;
+  margin-bottom: 12px;
+  animation: aparecer 0.4s ease;
+}
+
+/* Nível 2 – 7 moedas + 3 gemas */
+#n2c1:checked ~ #n2c2:checked ~ #n2c3:checked ~ #n2c4:checked
+~ #n2c5:checked ~ #n2c6:checked ~ #n2c7:checked
+~ #n2g1:checked ~ #n2g2:checked ~ #n2g3:checked
+~ .zona-avance .btn-proximo {
+  display: inline-flex;
+}
+
+#n2c1:checked ~ #n2c2:checked ~ #n2c3:checked ~ #n2c4:checked
+~ #n2c5:checked ~ #n2c6:checked ~ #n2c7:checked
+~ #n2g1:checked ~ #n2g2:checked ~ #n2g3:checked
+~ .zona-avance .msg-nivel::after {
+  content: "🔥 ¡Nivel 2 superado! El corazón del volcán te espera.";
+  display: block;
+  color: var(--ouro);
+  font-weight: 700;
+  margin-bottom: 12px;
+  animation: aparecer 0.4s ease;
+}
+
+/* Nível 3 – 8 moedas + 4 gemas */
+#n3c1:checked ~ #n3c2:checked ~ #n3c3:checked ~ #n3c4:checked
+~ #n3c5:checked ~ #n3c6:checked ~ #n3c7:checked ~ #n3c8:checked
+~ #n3g1:checked ~ #n3g2:checked ~ #n3g3:checked ~ #n3g4:checked
+~ .zona-avance .btn-proximo {
+  display: inline-flex;
+}
+
+#n3c1:checked ~ #n3c2:checked ~ #n3c3:checked ~ #n3c4:checked
+~ #n3c5:checked ~ #n3c6:checked ~ #n3c7:checked ~ #n3c8:checked
+~ #n3g1:checked ~ #n3g2:checked ~ #n3g3:checked ~ #n3g4:checked
+~ .zona-avance .msg-nivel::after {
+  content: "🏆 ¡Victoria total! ¡Has conquistado el volcán!";
+  display: block;
+  color: var(--ouro);
+  font-weight: 700;
+  margin-bottom: 12px;
+  animation: aparecer 0.4s ease;
+}
+
+.zona-avance {
+  margin-top: 20px;
+  min-height: 90px;
+}
+
+.msg-nivel {
+  min-height: 28px;
+  font-size: 1.05rem;
+}
+
+/* Inputs escondidos */
+input[type="radio"],
+input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Rodapé */
+.rodape {
+  margin-top: 28px;
+  font-size: 0.85rem;
+  color: #a08070;
+  opacity: 0.75;
+}
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .jogo-wrap { height: 460px; }
+  .heroi { transform: scale(0.88); transform-origin: bottom center; }
+  .controles label { padding: 9px 12px; font-size: 0.82rem; }
+}
+
+@media (max-width: 600px) {
+  .jogo-wrap { height: 380px; border-width: 3px; }
+  .titulo { font-size: 1.8rem; }
+}

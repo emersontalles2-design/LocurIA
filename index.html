@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aventura Volcánica · Solo HTML & CSS</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+
+  <!-- ==================== INICIO ==================== -->
+  <section id="inicio" class="tela">
+    <h1 class="titulo">🌋 AVENTURA VOLCÁNICA</h1>
+    <p class="subtitulo">Juego de plataformas · Solo HTML &amp; CSS</p>
+    <a href="#instrucoes" class="btn btn-sec">Cómo jugar</a>
+    <a href="#nivel1" class="btn">▶ Empezar Nivel 1</a>
+    <p class="rodape">Recoge todas las monedas y gemas para avanzar de nivel</p>
+  </section>
+
+  <!-- ==================== INSTRUCCIONES ==================== -->
+  <section id="instrucoes" class="tela">
+    <div class="caixa">
+      <h2>📜 Cómo jugar</h2>
+      <ul>
+        <li><strong>Mover al héroe:</strong> haz clic en los botones numerados debajo del escenario.</li>
+        <li><strong>Recolectar:</strong> haz clic directamente sobre las <span style="color:#ffd700">monedas doradas</span> y las <span style="color:#00d4ff">gemas azules</span>.</li>
+        <li>Cuando recojas <strong>TODOS</strong> los objetos del nivel, aparecerá automáticamente el botón para el siguiente nivel.</li>
+        <li>Cada nivel aumenta la dificultad: más altura, más objetos y plataformas más irregulares.</li>
+        <li>Todo funciona solo con CSS (selectores <code>:checked</code>, <code>~</code>, <code>:target</code> y <code>:has()</code>).</li>
+      </ul>
+    </div>
+    <a href="#nivel1" class="btn">¡Entendido, vamos!</a>
+    <a href="#inicio" class="btn btn-sec">Volver</a>
+  </section>
+
+  <!-- ==================== NIVEL 1 ==================== -->
+  <section id="nivel1" class="tela">
+    <h2 class="titulo" style="font-size:1.7rem;margin-bottom:6px;">Nivel 1 · Entrada del Volcán</h2>
+    <p style="color:#ffb088;margin-bottom:14px;">Recoge 6 monedas y 2 gemas</p>
+
+    <input type="radio" name="pos1" id="n1p1" checked>
+    <input type="radio" name="pos1" id="n1p2">
+    <input type="radio" name="pos1" id="n1p3">
+    <input type="radio" name="pos1" id="n1p4">
+    <input type="radio" name="pos1" id="n1p5">
+    <input type="radio" name="pos1" id="n1p6">
+    <input type="radio" name="pos1" id="n1p7">
+    <input type="radio" name="pos1" id="n1p8">
+
+    <input type="checkbox" id="n1c1">
+    <input type="checkbox" id="n1c2">
+    <input type="checkbox" id="n1c3">
+    <input type="checkbox" id="n1c4">
+    <input type="checkbox" id="n1c5">
+    <input type="checkbox" id="n1c6">
+    <input type="checkbox" id="n1g1">
+    <input type="checkbox" id="n1g2">
+
+    <div class="jogo-wrap">
+      <div class="cenario">
+        <div class="montanha m1"></div>
+        <div class="montanha m2"></div>
+        <div class="montanha m3"></div>
+        <div class="montanha m4"></div>
+
+        <div class="cascata" style="left:28px;bottom:68px;height:170px;"></div>
+
+        <div class="plat" style="left:25px;bottom:80px;width:115px;"></div>
+        <div class="plat" style="left:140px;bottom:155px;width:95px;"></div>
+        <div class="plat" style="left:265px;bottom:230px;width:105px;"></div>
+        <div class="plat" style="left:395px;bottom:175px;width:115px;"></div>
+        <div class="plat" style="left:535px;bottom:255px;width:95px;"></div>
+        <div class="plat" style="left:680px;bottom:195px;width:120px;"></div>
+        <div class="plat" style="left:830px;bottom:135px;width:105px;"></div>
+        <div class="plat" style="left:950px;bottom:80px;width:95px;"></div>
+
+        <div class="tocha" style="left:290px;bottom:252px;"><div class="fogo"></div><div class="haste"></div></div>
+        <div class="tocha" style="left:720px;bottom:217px;"><div class="fogo"></div><div class="haste"></div></div>
+
+        <div class="escada" style="left:870px;bottom:157px;height:78px;"></div>
+        <div class="bau" style="left:980px;bottom:102px;"></div>
+
+        <div class="heroi">
+          <div class="cabeca"></div>
+          <div class="corpo"></div>
+        </div>
+
+        <div class="lava"></div>
+
+        <div class="hud">
+          <div class="hud-pill">❤️ × 3</div>
+          <div class="nivel-badge">NIVEL 1</div>
+          <div class="hud-pill">🪙 6 &nbsp; 💎 2</div>
+        </div>
+      </div>
+
+      <label class="item-label" style="left:165px;bottom:185px;" for="n1c1"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:295px;bottom:260px;" for="n1c2"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:430px;bottom:205px;" for="n1c3"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:565px;bottom:285px;" for="n1c4"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:730px;bottom:225px;" for="n1c5"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:880px;bottom:165px;" for="n1c6"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:210px;bottom:185px;" for="n1g1"><div class="item gema"></div></label>
+      <label class="item-label" style="left:660px;bottom:225px;" for="n1g2"><div class="item gema"></div></label>
+    </div>
+
+    <div class="controles">
+      <label for="n1p1">① Inicio</label>
+      <label for="n1p2">② Izquierda</label>
+      <label for="n1p3">③ Alta Izq.</label>
+      <label for="n1p4">④ Centro</label>
+      <label for="n1p5">⑤ Alta Der.</label>
+      <label for="n1p6">⑥ Der. Media</label>
+      <label for="n1p7">⑦ Baja Der.</label>
+      <label for="n1p8">⑧ Meta</label>
+    </div>
+
+    <div class="zona-avance">
+      <div class="msg-nivel"></div>
+      <a href="#nivel2" class="btn btn-proximo">Siguiente Nivel →</a>
+    </div>
+
+    <a href="#inicio" class="btn btn-sec" style="margin-top:12px;">Menú</a>
+  </section>
+
+  <!-- ==================== NIVEL 2 ==================== -->
+  <section id="nivel2" class="tela">
+    <h2 class="titulo" style="font-size:1.7rem;margin-bottom:6px;">Nivel 2 · Puentes Colgantes</h2>
+    <p style="color:#ffb088;margin-bottom:14px;">Recoge 7 monedas y 3 gemas · Más altura</p>
+
+    <input type="radio" name="pos2" id="n2p1" checked>
+    <input type="radio" name="pos2" id="n2p2">
+    <input type="radio" name="pos2" id="n2p3">
+    <input type="radio" name="pos2" id="n2p4">
+    <input type="radio" name="pos2" id="n2p5">
+    <input type="radio" name="pos2" id="n2p6">
+    <input type="radio" name="pos2" id="n2p7">
+
+    <input type="checkbox" id="n2c1">
+    <input type="checkbox" id="n2c2">
+    <input type="checkbox" id="n2c3">
+    <input type="checkbox" id="n2c4">
+    <input type="checkbox" id="n2c5">
+    <input type="checkbox" id="n2c6">
+    <input type="checkbox" id="n2c7">
+    <input type="checkbox" id="n2g1">
+    <input type="checkbox" id="n2g2">
+    <input type="checkbox" id="n2g3">
+
+    <div class="jogo-wrap">
+      <div class="cenario">
+        <div class="montanha m1"></div>
+        <div class="montanha m2"></div>
+        <div class="montanha m3"></div>
+        <div class="montanha m4"></div>
+
+        <div class="cascata" style="left:18px;bottom:68px;height:210px;width:42px;"></div>
+        <div class="cascata" style="right:70px;bottom:68px;height:150px;width:36px;"></div>
+
+        <div class="plat" style="left:25px;bottom:80px;width:95px;"></div>
+        <div class="plat" style="left:145px;bottom:185px;width:85px;"></div>
+        <div class="plat" style="left:290px;bottom:280px;width:95px;"></div>
+        <div class="plat" style="left:440px;bottom:195px;width:105px;"></div>
+        <div class="plat" style="left:590px;bottom:305px;width:85px;"></div>
+        <div class="plat" style="left:735px;bottom:225px;width:95px;"></div>
+        <div class="plat" style="left:880px;bottom:145px;width:115px;"></div>
+
+        <div class="corrente" style="left:205px;bottom:207px;height:95px;"></div>
+        <div class="corrente" style="left:360px;bottom:217px;height:85px;"></div>
+        <div class="corrente" style="left:660px;bottom:247px;height:75px;"></div>
+
+        <div class="tocha" style="left:310px;bottom:302px;"><div class="fogo"></div><div class="haste"></div></div>
+        <div class="tocha" style="left:760px;bottom:247px;"><div class="fogo"></div><div class="haste"></div></div>
+
+        <div class="bau" style="left:930px;bottom:167px;"></div>
+
+        <div class="heroi">
+          <div class="cabeca"></div>
+          <div class="corpo"></div>
+        </div>
+
+        <div class="lava"></div>
+
+        <div class="hud">
+          <div class="hud-pill">❤️ × 3</div>
+          <div class="nivel-badge">NIVEL 2</div>
+          <div class="hud-pill">🪙 7 &nbsp; 💎 3</div>
+        </div>
+      </div>
+
+      <label class="item-label" style="left:175px;bottom:220px;" for="n2c1"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:320px;bottom:315px;" for="n2c2"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:480px;bottom:230px;" for="n2c3"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:620px;bottom:340px;" for="n2c4"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:770px;bottom:260px;" for="n2c5"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:910px;bottom:180px;" for="n2c6"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:510px;bottom:230px;" for="n2c7"><div class="item moeda"></div></label>
+
+      <label class="item-label" style="left:205px;bottom:220px;" for="n2g1"><div class="item gema"></div></label>
+      <label class="item-label" style="left:655px;bottom:340px;" for="n2g2"><div class="item gema"></div></label>
+      <label class="item-label" style="left:830px;bottom:260px;" for="n2g3"><div class="item gema"></div></label>
+    </div>
+
+    <div class="controles">
+      <label for="n2p1">① Inicio</label>
+      <label for="n2p2">② Subida</label>
+      <label for="n2p3">③ Pico</label>
+      <label for="n2p4">④ Valle</label>
+      <label for="n2p5">⑤ Cumbre</label>
+      <label for="n2p6">⑥ Descenso</label>
+      <label for="n2p7">⑦ Meta</label>
+    </div>
+
+    <div class="zona-avance">
+      <div class="msg-nivel"></div>
+      <a href="#nivel3" class="btn btn-proximo">Siguiente Nivel →</a>
+    </div>
+
+    <a href="#inicio" class="btn btn-sec" style="margin-top:12px;">Menú</a>
+  </section>
+
+  <!-- ==================== NIVEL 3 ==================== -->
+  <section id="nivel3" class="tela">
+    <h2 class="titulo" style="font-size:1.7rem;margin-bottom:6px;">Nivel 3 · Corazón del Volcán</h2>
+    <p style="color:#ffb088;margin-bottom:14px;">¡Desafío final! · 8 monedas + 4 gemas</p>
+
+    <input type="radio" name="pos3" id="n3p1" checked>
+    <input type="radio" name="pos3" id="n3p2">
+    <input type="radio" name="pos3" id="n3p3">
+    <input type="radio" name="pos3" id="n3p4">
+    <input type="radio" name="pos3" id="n3p5">
+    <input type="radio" name="pos3" id="n3p6">
+    <input type="radio" name="pos3" id="n3p7">
+    <input type="radio" name="pos3" id="n3p8">
+
+    <input type="checkbox" id="n3c1">
+    <input type="checkbox" id="n3c2">
+    <input type="checkbox" id="n3c3">
+    <input type="checkbox" id="n3c4">
+    <input type="checkbox" id="n3c5">
+    <input type="checkbox" id="n3c6">
+    <input type="checkbox" id="n3c7">
+    <input type="checkbox" id="n3c8">
+    <input type="checkbox" id="n3g1">
+    <input type="checkbox" id="n3g2">
+    <input type="checkbox" id="n3g3">
+    <input type="checkbox" id="n3g4">
+
+    <div class="jogo-wrap">
+      <div class="cenario">
+        <div class="montanha m1"></div>
+        <div class="montanha m2"></div>
+        <div class="montanha m3"></div>
+        <div class="montanha m4"></div>
+
+        <div class="cascata" style="left:12px;bottom:68px;height:230px;width:46px;"></div>
+        <div class="cascata" style="left:370px;bottom:68px;height:105px;width:32px;"></div>
+        <div class="cascata" style="right:35px;bottom:68px;height:190px;width:42px;"></div>
+
+        <div class="plat" style="left:20px;bottom:80px;width:90px;"></div>
+        <div class="plat" style="left:130px;bottom:205px;width:80px;"></div>
+        <div class="plat" style="left:250px;bottom:145px;width:90px;"></div>
+        <div class="plat" style="left:390px;bottom:285px;width:85px;"></div>
+        <div class="plat" style="left:530px;bottom:195px;width:80px;"></div>
+        <div class="plat" style="left:670px;bottom:335px;width:90px;"></div>
+        <div class="plat" style="left:810px;bottom:235px;width:85px;"></div>
+        <div class="plat" style="left:935px;bottom:100px;width:100px;"></div>
+
+        <div class="corrente" style="left:185px;bottom:165px;height:115px;"></div>
+        <div class="corrente" style="left:455px;bottom:215px;height:95px;"></div>
+        <div class="corrente" style="left:725px;bottom:255px;height:105px;"></div>
+
+        <div class="tocha" style="left:275px;bottom:167px;"><div class="fogo"></div><div class="haste"></div></div>
+        <div class="tocha" style="left:555px;bottom:217px;"><div class="fogo"></div><div class="haste"></div></div>
+        <div class="tocha" style="left:845px;bottom:257px;"><div class="fogo"></div><div class="haste"></div></div>
+
+        <div class="escada" style="left:960px;bottom:122px;height:95px;"></div>
+        <div class="bau" style="left:960px;bottom:122px;"></div>
+
+        <div class="heroi">
+          <div class="cabeca"></div>
+          <div class="corpo"></div>
+        </div>
+
+        <div class="lava"></div>
+
+        <div class="hud">
+          <div class="hud-pill">❤️ × 3</div>
+          <div class="nivel-badge">NIVEL 3</div>
+          <div class="hud-pill">🪙 8 &nbsp; 💎 4</div>
+        </div>
+      </div>
+
+      <label class="item-label" style="left:160px;bottom:240px;" for="n3c1"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:280px;bottom:180px;" for="n3c2"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:420px;bottom:320px;" for="n3c3"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:560px;bottom:230px;" for="n3c4"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:700px;bottom:370px;" for="n3c5"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:840px;bottom:270px;" for="n3c6"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:960px;bottom:135px;" for="n3c7"><div class="item moeda"></div></label>
+      <label class="item-label" style="left:500px;bottom:230px;" for="n3c8"><div class="item moeda"></div></label>
+
+      <label class="item-label" style="left:200px;bottom:240px;" for="n3g1"><div class="item gema"></div></label>
+      <label class="item-label" style="left:450px;bottom:320px;" for="n3g2"><div class="item gema"></div></label>
+      <label class="item-label" style="left:750px;bottom:370px;" for="n3g3"><div class="item gema"></div></label>
+      <label class="item-label" style="left:900px;bottom:270px;" for="n3g4"><div class="item gema"></div></label>
+    </div>
+
+    <div class="controles">
+      <label for="n3p1">① Inicio</label>
+      <label for="n3p2">② Alta Izq.</label>
+      <label for="n3p3">③ Media</label>
+      <label for="n3p4">④ Pico</label>
+      <label for="n3p5">⑤ Valle</label>
+      <label for="n3p6">⑥ Cumbre</label>
+      <label for="n3p7">⑦ Alta Der.</label>
+      <label for="n3p8">⑧ Meta</label>
+    </div>
+
+    <div class="zona-avance">
+      <div class="msg-nivel"></div>
+      <a href="#vitoria" class="btn btn-proximo">¡Ver Victoria!</a>
+    </div>
+
+    <a href="#inicio" class="btn btn-sec" style="margin-top:12px;">Menú</a>
+  </section>
+
+  <!-- ==================== VICTORIA ==================== -->
+  <section id="vitoria" class="tela">
+    <h1 class="titulo">🏆 ¡VICTORIA!</h1>
+    <p class="subtitulo" style="font-size:1.35rem;">Has conquistado el volcán y recogido todos los tesoros</p>
+    <div class="caixa" style="text-align:center;">
+      <p style="font-size:1.2rem;margin-bottom:10px;">🔥 Niveles superados: <strong>3 / 3</strong></p>
+      <p>Todas las monedas y gemas han sido recolectadas en el corazón del volcán.</p>
+      <p style="margin-top:14px;color:var(--ouro);font-weight:700;">¡Eres un verdadero héroe de las plataformas!</p>
+    </div>
+    <a href="#nivel1" class="btn">Jugar de nuevo</a>
+    <a href="#inicio" class="btn btn-sec">Menú principal</a>
+  </section>
+
+</body>
+</html>
